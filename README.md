@@ -1,6 +1,6 @@
 # Subspace: A decentralized database of edge devices
 
-Jeremiah Wagstaff -- June 12th 2018
+Jeremiah Wagstaff June 12th 2018
 
 ## Abstract
 
@@ -137,7 +137,7 @@ To create a new block, a farmer first creates the coin base transaction, minting
 
 CoS is a concept similar to the unspent transaction output (UTXO) in Bitcoin but as it relates aggregate space, data, and credits on the network. Any node may compute the CoS for a given block if they have a full copy of the SSCL. It is simply the ratio between the total supply of subspace credits and the difference of all space pledged by hosts and all data reserved by clients. This can be expressed as:
 
-(Cost of Storage)[https://raw.githubusercontent.com/subspace/paper/master/Cost_of_Storage.gif]
+[Cost of Storage](https://raw.githubusercontent.com/subspace/paper/master/Cost_of_Storage.gif)
 
 _C_, the total credit supply, is simply the sum of all coin base transactions in the ledger. _S(t)_, the total space-time pledged by all hosts, is calculated by summing the space pledged and time remaining on all valid host storage contracts that have been published to SSCL. A contract is valid if the host submitted a payment request when the last contract interval expired. _s(t)_, the total remaining space-time for any given host is calculated in byte-seconds by computing the product of the space pledged and the time remaining until the current interval expires. _D(t)_, the total data-time reserved by all clients, is calculated by summing the the data reserved and time remaining on all valid client data contracts that have been published to the SSCL. It is noteworthy that this number reflects the _reserved_ space on the network, not the actual amount of space holding client data, which has no relevance to the cost of reserved storage. _d(t)_, the total remaining data-time for any given client contract, may be calculated in byte-seconds as the product of the data reserved in bytes and the time left on the contract in seconds. Subtracting _D(t)_ from _S(t)_ we are left with the total amount of space-time left on the network. We may then determine the cost of a unit of space-time by computing the fraction of total space-time over the total credit supply. This returns a constant in credits per byte-second, which we may convert to a more familiar credits per gigabyte-month.
 
@@ -147,7 +147,7 @@ Each block will have a different CoS, as hosts and clients churn and the value o
 
 Each block has a single nexus transaction with as many outputs as there are valid payment requests, one for each host whose payment is due. Once the specified interval for a host storage contract has been reached, the host may submit a payment request to the transaction pool for validation by farmers. The request must include the contract id and the hash of the last block with a valid signature. Farmers will compute the payment for each valid request and include it as an output in the nexus transaction. Host payments are a product of the average CoS over the contract interval, the average utilized space, and the percentage of time the host was online, expressed as:
 
-(Nexus Payment)[https://raw.githubusercontent.com/subspace/paper/master/nexus_payment.gif]
+[Nexus Payment](https://raw.githubusercontent.com/subspace/paper/master/nexus_payment.gif)
 
 Average CoS is obtained by summing the CoS published in each block over the contract interval and dividing by the number of blocks. This will only have to computed once for each nexus transaction as all hosts will be on the same 30 day contract interval, and can be easily adjusted as a rolling sum as new blocks are added to the ledger. Average utilized space reflects the amount of data actually held by the host, but is computed from aggregates rather than explicitly tracking for each host. We may do this because the network is self-balancing in a manner that is proportional to the size of each hosts storage contract, with small hosts being filled to capacity before large hosts. Average utilized space is computed by sequencing all host storage contracts in the ledger from smallest to largest and then filling them up to the network average. This operation only needs to be performed once for each nexus transaction and may also be incrementally adjusted between blocks. The uptime rate is obtained by checking the LHT to see the accrued uptime for the host for this period.  
 
