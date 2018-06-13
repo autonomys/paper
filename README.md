@@ -1,6 +1,6 @@
 # Subspace: A decentralized database of edge devices
 
-Jeremiah Wagstaff 
+Jeremiah Wagstaff <br>
 June 12th 2018
 
 ## Abstract
