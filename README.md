@@ -1,7 +1,3 @@
-<head>
-<link rel="shortcut icon" type="image/x-icon" href="subspace.ico">
-</head>
-
 # Subspace: A decentralized database of edge devices
 
 Jeremiah Wagstaff <br>
